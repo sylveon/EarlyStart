@@ -1,44 +1,68 @@
 ﻿using Cassia;
 using System;
+using System.Diagnostics;
 using System.IO;
-using System.Reflection;
 using System.Runtime.InteropServices;
 using System.ServiceProcess;
 using static HighPriorityLauncher.NativeMethods;
 
 namespace HighPriorityLauncher
 {
-    public partial class Service : ServiceBase
+    public class Service : ServiceBase
     {
-        private ITerminalServer _terminalServer = new TerminalServicesManager().GetLocalServer();
-        private string _exeFolder = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+        private readonly EventLog _log = new EventLog();
+        private readonly Guid _profile = new Guid(0x5E6C858F, 0x0E22, 0x4760, 0x9A, 0xFE, 0xEA, 0x33, 0x17, 0xB6, 0x71, 0x73);
+        private readonly ITerminalServer _terminalServer = new TerminalServicesManager().GetLocalServer();
 
         public Service()
         {
-            InitializeComponent();
+            _log.Log = "EarlyStart";
+            _log.Source = "EarlyStart Service";
+
+            CanHandleSessionChangeEvent = true;
+            ServiceName = "EarlyStart";
         }
 
         protected override void OnSessionChange(SessionChangeDescription changeDescription)
         {
             if (changeDescription.Reason == SessionChangeReason.SessionLogon)
             {
-                var startupInfo = new StartupInfo
+                try
                 {
-                    ByteCount = (uint)Marshal.SizeOf<StartupInfo>()
-                };
-
-                string ttbExecutable = $"\"{Path.Combine(_exeFolder, "TranslucentTB.exe")}\"";
-
-                using (var token = _terminalServer.GetSession(changeDescription.SessionId).GetToken())
-                using (var environment = new EnvironmentBlock(token))
-                {
-                    if (!CreateProcessAsUser(token.DangerousGetHandle(), null, ttbExecutable, IntPtr.Zero, IntPtr.Zero, false, CreationFlags.UnicodeEnvironment, environment.Handle, _exeFolder, ref startupInfo, out var processInfo))
+                    var session = _terminalServer.GetSession(changeDescription.SessionId);
+                    using (var token = session.GetToken())
                     {
-                        throw Marshal.GetExceptionForHR(Marshal.GetHRForLastWin32Error());
-                    }
+                        SHGetKnownFolderPath(_profile, 0, token.DangerousGetHandle(), out var pPath);
+                        string filePath = Path.Combine(Marshal.PtrToStringAuto(pPath), ".earlystart");
+                        Marshal.FreeCoTaskMem(pPath);
+                        if (!File.Exists(filePath))
+                        {
+                            return;
+                        }
 
-                    CloseHandle(processInfo.ThreadHandle);
-                    CloseHandle(processInfo.ProcessHandle);
+                        using (var environment = new EnvironmentBlock(token))
+                        {
+                            foreach (string commandLine in File.ReadAllLines(filePath))
+                            {
+                                var startupInfo = new StartupInfo
+                                {
+                                    ByteCount = (uint)Marshal.SizeOf<StartupInfo>()
+                                };
+
+                                if (!CreateProcessAsUser(token.DangerousGetHandle(), null, commandLine, IntPtr.Zero, IntPtr.Zero, false, CreationFlags.UnicodeEnvironment, environment.Handle, Environment.SystemDirectory, ref startupInfo, out var processInfo))
+                                {
+                                    throw Marshal.GetExceptionForHR(Marshal.GetHRForLastWin32Error());
+                                }
+
+                                CloseHandle(processInfo.ThreadHandle);
+                                CloseHandle(processInfo.ProcessHandle);
+                            }
+                        }
+                    }
+                }
+                catch (Exception e)
+                {
+                    _log.WriteEntry(e.ToString(), EventLogEntryType.Error);
                 }
             }
         }
@@ -47,7 +71,7 @@ namespace HighPriorityLauncher
         {
             if (disposing)
             {
-                _terminalServer?.Dispose();
+                _terminalServer.Dispose();
             }
 
             base.Dispose(disposing);

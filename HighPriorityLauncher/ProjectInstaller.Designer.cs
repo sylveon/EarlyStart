@@ -28,8 +28,18 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.LogInstaller = new System.Diagnostics.EventLogInstaller();
             this.ProcessInstaller = new System.ServiceProcess.ServiceProcessInstaller();
             this.ServiceInstaller = new System.ServiceProcess.ServiceInstaller();
+            // 
+            // LogInstaller
+            // 
+            this.LogInstaller.CategoryCount = 0;
+            this.LogInstaller.CategoryResourceFile = null;
+            this.LogInstaller.Log = "EarlyStart";
+            this.LogInstaller.MessageResourceFile = null;
+            this.LogInstaller.ParameterResourceFile = null;
+            this.LogInstaller.Source = "EarlyStart Service";
             // 
             // ProcessInstaller
             // 
@@ -39,14 +49,15 @@
             // 
             // ServiceInstaller
             // 
-            this.ServiceInstaller.Description = "Launches TranslucentTB before Windows Explorer";
-            this.ServiceInstaller.DisplayName = "TranslucentTB priority launch service";
-            this.ServiceInstaller.ServiceName = "TranslucentTB";
+            this.ServiceInstaller.Description = "Launches programs before Windows Explorer when opening a session.";
+            this.ServiceInstaller.DisplayName = "EarlyStart launch service";
+            this.ServiceInstaller.ServiceName = "EarlyStart";
             this.ServiceInstaller.StartType = System.ServiceProcess.ServiceStartMode.Automatic;
             // 
             // ProjectInstaller
             // 
             this.Installers.AddRange(new System.Configuration.Install.Installer[] {
+            this.LogInstaller,
             this.ProcessInstaller,
             this.ServiceInstaller});
 
@@ -54,6 +65,7 @@
 
         #endregion
 
+        private System.Diagnostics.EventLogInstaller LogInstaller;
         private System.ServiceProcess.ServiceProcessInstaller ProcessInstaller;
         private System.ServiceProcess.ServiceInstaller ServiceInstaller;
     }

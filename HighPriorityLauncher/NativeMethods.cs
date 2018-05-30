@@ -138,5 +138,8 @@ namespace HighPriorityLauncher
 
         [DllImport("userenv.dll", SetLastError = true)]
         public static extern bool DestroyEnvironmentBlock(IntPtr environment);
+
+        [DllImport("shell32.dll", PreserveSig = false)]
+        public static extern void SHGetKnownFolderPath([MarshalAs(UnmanagedType.LPStruct)] Guid rfid, uint dwFlags, IntPtr hToken, out IntPtr pszPath);
     }
 }

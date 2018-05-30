@@ -18,7 +18,7 @@ namespace HighPriorityLauncher
             using (var safeToken = new SafeAccessTokenHandle(impersonationToken))
             {
                 IntPtr primaryToken = IntPtr.Zero;
-                if (!NativeMethods.DuplicateTokenEx(impersonationToken, 0, IntPtr.Zero, NativeMethods.ImpersonationLevel.Impersonation, NativeMethods.TokenType.Primary, ref primaryToken))
+                if (!NativeMethods.DuplicateTokenEx(safeToken.DangerousGetHandle(), 0, IntPtr.Zero, NativeMethods.ImpersonationLevel.Impersonation, NativeMethods.TokenType.Primary, ref primaryToken))
                 {
                     throw Marshal.GetExceptionForHR(Marshal.GetHRForLastWin32Error());
                 }
