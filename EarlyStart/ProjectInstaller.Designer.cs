@@ -39,7 +39,7 @@
             this.LogInstaller.Log = "EarlyStart Service";
             this.LogInstaller.MessageResourceFile = null;
             this.LogInstaller.ParameterResourceFile = null;
-            this.LogInstaller.Source = "EarlyStartService";
+            this.LogInstaller.Source = "EarlyStart-Service";
             // 
             // ProcessInstaller
             // 

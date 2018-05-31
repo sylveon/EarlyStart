@@ -17,7 +17,7 @@ namespace EarlyStart
         public Service()
         {
             _log.Log = "EarlyStart Service";
-            _log.Source = "EarlyStartService";
+            _log.Source = "EarlyStart-Service";
 
             CanHandleSessionChangeEvent = true;
             ServiceName = "EarlyStartService";
