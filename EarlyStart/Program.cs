@@ -1,6 +1,6 @@
 ﻿using System.ServiceProcess;
 
-namespace HighPriorityLauncher
+namespace EarlyStart
 {
     static class Program
     {
