@@ -4,9 +4,9 @@ using System.Diagnostics;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.ServiceProcess;
-using static HighPriorityLauncher.NativeMethods;
+using static EarlyStart.NativeMethods;
 
-namespace HighPriorityLauncher
+namespace EarlyStart
 {
     public class Service : ServiceBase
     {
@@ -16,11 +16,11 @@ namespace HighPriorityLauncher
 
         public Service()
         {
-            _log.Log = "EarlyStart";
-            _log.Source = "EarlyStart Service";
+            _log.Log = "EarlyStart Service";
+            _log.Source = "EarlyStartService";
 
             CanHandleSessionChangeEvent = true;
-            ServiceName = "EarlyStart";
+            ServiceName = "EarlyStartService";
         }
 
         protected override void OnSessionChange(SessionChangeDescription changeDescription)

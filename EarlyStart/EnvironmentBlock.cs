@@ -1,9 +1,8 @@
 ﻿using Microsoft.Win32.SafeHandles;
 using System;
-using System.ComponentModel;
 using System.Runtime.InteropServices;
 
-namespace HighPriorityLauncher
+namespace EarlyStart
 {
     class EnvironmentBlock : IDisposable
     {

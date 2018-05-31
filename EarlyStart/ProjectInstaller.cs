@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 
-namespace HighPriorityLauncher
+namespace EarlyStart
 {
     [RunInstaller(true)]
     public partial class ProjectInstaller : System.Configuration.Install.Installer

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 
-namespace HighPriorityLauncher
+namespace EarlyStart
 {
     internal static class NativeMethods
     {

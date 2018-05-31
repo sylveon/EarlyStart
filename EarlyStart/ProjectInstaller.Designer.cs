@@ -1,4 +1,4 @@
-﻿namespace HighPriorityLauncher
+﻿namespace EarlyStart
 {
     partial class ProjectInstaller
     {
@@ -36,10 +36,10 @@
             // 
             this.LogInstaller.CategoryCount = 0;
             this.LogInstaller.CategoryResourceFile = null;
-            this.LogInstaller.Log = "EarlyStart";
+            this.LogInstaller.Log = "EarlyStart Service";
             this.LogInstaller.MessageResourceFile = null;
             this.LogInstaller.ParameterResourceFile = null;
-            this.LogInstaller.Source = "EarlyStart Service";
+            this.LogInstaller.Source = "EarlyStartService";
             // 
             // ProcessInstaller
             // 
