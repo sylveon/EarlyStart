@@ -50,8 +50,8 @@
             // ServiceInstaller
             // 
             this.ServiceInstaller.Description = "Launches programs before Windows Explorer when opening a session.";
-            this.ServiceInstaller.DisplayName = "EarlyStart launch service";
-            this.ServiceInstaller.ServiceName = "EarlyStart";
+            this.ServiceInstaller.DisplayName = "EarlyStart Service";
+            this.ServiceInstaller.ServiceName = "EarlyStartService";
             this.ServiceInstaller.StartType = System.ServiceProcess.ServiceStartMode.Automatic;
             // 
             // ProjectInstaller
