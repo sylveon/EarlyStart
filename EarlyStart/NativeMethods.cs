@@ -114,7 +114,7 @@ namespace EarlyStart
         public static extern bool CloseHandle(IntPtr handle);
 
         [DllImport("wtsapi32.dll", SetLastError = true)]
-        public static extern bool WTSQueryUserToken(uint sessionId, ref IntPtr token);
+        public static extern bool WTSQueryUserToken(uint sessionId, out IntPtr token);
 
         public enum ImpersonationLevel
         {
@@ -131,10 +131,10 @@ namespace EarlyStart
         }
 
         [DllImport("advapi32.dll", SetLastError = true)]
-        public static extern bool DuplicateTokenEx(IntPtr existingToken, uint desiredAccess, IntPtr tokenAttributes, ImpersonationLevel level, TokenType type, ref IntPtr newToken);
+        public static extern bool DuplicateTokenEx(IntPtr existingToken, uint desiredAccess, IntPtr tokenAttributes, ImpersonationLevel level, TokenType type, out IntPtr newToken);
 
         [DllImport("userenv.dll", SetLastError = true)]
-        public static extern bool CreateEnvironmentBlock(ref IntPtr environment, IntPtr token, bool inherit);
+        public static extern bool CreateEnvironmentBlock(out IntPtr environment, IntPtr token, bool inherit);
 
         [DllImport("userenv.dll", SetLastError = true)]
         public static extern bool DestroyEnvironmentBlock(IntPtr environment);

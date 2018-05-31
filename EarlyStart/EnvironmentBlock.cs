@@ -10,8 +10,7 @@ namespace EarlyStart
 
         public EnvironmentBlock(SafeAccessTokenHandle token, bool inherit = false)
         {
-            IntPtr temp = IntPtr.Zero;
-            if (!NativeMethods.CreateEnvironmentBlock(ref temp, token.DangerousGetHandle(), inherit))
+            if (!NativeMethods.CreateEnvironmentBlock(out var temp, token.DangerousGetHandle(), inherit))
             {
                 throw Marshal.GetExceptionForHR(Marshal.GetHRForLastWin32Error());
             }

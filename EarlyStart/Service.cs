@@ -29,8 +29,7 @@ namespace EarlyStart
             {
                 try
                 {
-                    var session = _terminalServer.GetSession(changeDescription.SessionId);
-                    using (var token = session.GetToken())
+                    using (var token = _terminalServer.GetSession(changeDescription.SessionId).GetToken())
                     {
                         SHGetKnownFolderPath(_profile, 0, token.DangerousGetHandle(), out var pPath);
                         string filePath = Path.Combine(Marshal.PtrToStringAuto(pPath), ".earlystart");
