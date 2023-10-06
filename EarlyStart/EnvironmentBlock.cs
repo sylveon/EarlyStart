@@ -1,34 +1,48 @@
 ﻿using Microsoft.Win32.SafeHandles;
 using System;
 using System.Runtime.InteropServices;
+using static Windows.Win32.PInvoke;
 
 namespace EarlyStart
 {
     class EnvironmentBlock : IDisposable
     {
-        public IntPtr Handle { get; private set; }
+        private unsafe void* handle;
 
-        public EnvironmentBlock(SafeAccessTokenHandle token, bool inherit = false)
+        public unsafe void* Handle => handle;
+
+        public EnvironmentBlock(SafeFileHandle token, bool inherit = false)
         {
-            if (!NativeMethods.CreateEnvironmentBlock(out var temp, token.DangerousGetHandle(), inherit))
+            unsafe
             {
-                throw Marshal.GetExceptionForHR(Marshal.GetHRForLastWin32Error());
+                if (!CreateEnvironmentBlock(out handle, token, inherit))
+                {
+                    Marshal.ThrowExceptionForHR(Marshal.GetHRForLastWin32Error());
+                }
             }
+        }
 
-            Handle = temp;
+        ~EnvironmentBlock()
+        {
+            Dispose();
         }
 
         public void Dispose()
         {
-            if (Handle != IntPtr.Zero)
+            unsafe
             {
-                if (!NativeMethods.DestroyEnvironmentBlock(Handle))
+                if (handle != null)
                 {
-                    throw Marshal.GetExceptionForHR(Marshal.GetHRForLastWin32Error());
-                }
+                    if (!DestroyEnvironmentBlock(handle))
+                    {
+                        Marshal.ThrowExceptionForHR(Marshal.GetHRForLastWin32Error());
+                    }
 
-                Handle = IntPtr.Zero;
+                    handle = null;
+                }
             }
+
+            GC.SuppressFinalize(this);
         }
     }
 }

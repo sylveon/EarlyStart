@@ -1,0 +1,12 @@
+WTSQueryUserToken
+DuplicateTokenEx
+CreateProcessAsUser
+CloseHandle
+
+SHGetKnownFolderPath
+CoTaskMemFree
+
+CreateEnvironmentBlock
+DestroyEnvironmentBlock
+
+SHOW_WINDOW_CMD

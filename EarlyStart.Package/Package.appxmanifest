@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<Package
+  xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10"
+  xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10"
+  xmlns:rescap="http://schemas.microsoft.com/appx/manifest/foundation/windows10/restrictedcapabilities"
+  xmlns:desktop6="http://schemas.microsoft.com/appx/manifest/desktop/windows10/6"
+  IgnorableNamespaces="uap rescap">
+
+	<Identity Name="EarlyStart" Publisher="CN=Sylveon" Version="1.1.0.0" />
+
+	<Properties>
+		<DisplayName>EarlyStart</DisplayName>
+		<PublisherDisplayName>Charles Milette</PublisherDisplayName>
+		<Logo>Images\StoreLogo.png</Logo>
+	</Properties>
+
+	<Dependencies>
+		<TargetDeviceFamily Name="Windows.Desktop" MinVersion="10.0.19041.0" MaxVersionTested="10.0.22621.0" />
+	</Dependencies>
+
+	<Resources>
+		<Resource Language="x-generate"/>
+	</Resources>
+
+	<Applications>
+		<Application Id="EarlyStart">
+			<uap:VisualElements DisplayName="EarlyStart" Description="Launches programs before Windows Explorer when opening a session." BackgroundColor="transparent" Square150x150Logo="Images\Square150x150Logo.png" Square44x44Logo="Images\Square44x44Logo.png" AppListEntry="none" />
+			<Extensions>
+				<desktop6:Extension Category="windows.service" Executable="EarlyStart.exe" EntryPoint="Windows.FullTrustApplication">
+					<desktop6:Service Name="EarlyStart Service" StartupType="auto" StartAccount="localSystem" />
+				</desktop6:Extension>
+			</Extensions>
+		</Application>
+	</Applications>
+
+	<Capabilities>
+		<rescap:Capability Name="localSystemServices" />
+		<rescap:Capability Name="packagedServices" />
+		<rescap:Capability Name="runFullTrust" />
+	</Capabilities>
+</Package>

@@ -1,27 +1,30 @@
 ﻿using Cassia;
 using Microsoft.Win32.SafeHandles;
-using System;
 using System.Runtime.InteropServices;
+using Windows.Win32.Foundation;
+using Windows.Win32.Security;
+using static Windows.Win32.PInvoke;
 
 namespace EarlyStart
 {
     static class CassiaExtensions
     {
-        public static SafeAccessTokenHandle GetToken(this ITerminalServicesSession session)
+        public static SafeFileHandle GetToken(this ITerminalServicesSession session)
         {
-            if (!NativeMethods.WTSQueryUserToken((uint)session.SessionId, out var impersonationToken))
+            var impersonationToken = HANDLE.Null;
+            if (!WTSQueryUserToken((uint)session.SessionId, ref impersonationToken))
             {
-                throw Marshal.GetExceptionForHR(Marshal.GetHRForLastWin32Error());
+                Marshal.ThrowExceptionForHR(Marshal.GetHRForLastWin32Error());
             }
 
-            using (var safeToken = new SafeAccessTokenHandle(impersonationToken))
+            using (var safeToken = new SafeFileHandle(impersonationToken, true))
             {
-                if (!NativeMethods.DuplicateTokenEx(safeToken.DangerousGetHandle(), 0, IntPtr.Zero, NativeMethods.ImpersonationLevel.Impersonation, NativeMethods.TokenType.Primary, out var primaryToken))
+                if (!DuplicateTokenEx(safeToken, 0, null, SECURITY_IMPERSONATION_LEVEL.SecurityImpersonation, TOKEN_TYPE.TokenPrimary, out var primaryToken))
                 {
-                    throw Marshal.GetExceptionForHR(Marshal.GetHRForLastWin32Error());
+                    Marshal.ThrowExceptionForHR(Marshal.GetHRForLastWin32Error());
                 }
 
-                return new SafeAccessTokenHandle(primaryToken);
+                return primaryToken;
             }
         }
     }
