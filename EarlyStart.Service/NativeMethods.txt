@@ -10,3 +10,4 @@ CreateEnvironmentBlock
 DestroyEnvironmentBlock
 
 SHOW_WINDOW_CMD
+FOLDERID_Profile

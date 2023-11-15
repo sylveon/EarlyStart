@@ -21,7 +21,6 @@ namespace EarlyStart
         private readonly record struct Program(string CommandLine, SHOW_WINDOW_CMD? ShowWindowCommand);
 
         private readonly EventLog _log = new EventLog();
-        private readonly Guid _profile = new Guid(0x5E6C858F, 0x0E22, 0x4760, 0x9A, 0xFE, 0xEA, 0x33, 0x17, 0xB6, 0x71, 0x73);
         private readonly ITerminalServer _terminalServer = new TerminalServicesManager().GetLocalServer();
 
         public Service()
@@ -128,7 +127,7 @@ namespace EarlyStart
                 programs.Add(new Program($"\"{cmd}\" /c \"start shell:AppsFolder\\28017CharlesMilette.TranslucentTB_v826wp6bftszj!TranslucentTB\"", SHOW_WINDOW_CMD.SW_HIDE));
             }
 
-            SHGetKnownFolderPath(_profile, KNOWN_FOLDER_FLAG.KF_FLAG_DONT_VERIFY, sessionToken, out var pPath).ThrowOnFailure();
+            SHGetKnownFolderPath(FOLDERID_Profile, KNOWN_FOLDER_FLAG.KF_FLAG_DONT_VERIFY, sessionToken, out var pPath).ThrowOnFailure();
             string filePath;
             try
             {
