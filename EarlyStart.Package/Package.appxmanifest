@@ -24,7 +24,7 @@
 	</Resources>
 
 	<Applications>
-		<Application Id="EarlyStart">
+		<Application Id="EarlyStart" Executable="EarlyStart.exe" EntryPoint="Windows.FullTrustApplication">
 			<uap:VisualElements DisplayName="EarlyStart" Description="Launches programs before Windows Explorer when opening a session." BackgroundColor="transparent" Square150x150Logo="Images\Square150x150Logo.png" Square44x44Logo="Images\Square44x44Logo.png" AppListEntry="none" />
 			<Extensions>
 				<desktop6:Extension Category="windows.service" Executable="EarlyStart.exe" EntryPoint="Windows.FullTrustApplication">

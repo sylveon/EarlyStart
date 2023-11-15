@@ -144,7 +144,7 @@ namespace EarlyStart
 
             try
             {
-                programs.AddRange(File.ReadAllLines(filePath).Select(cmdLine => new Program(cmdLine, null)));
+                programs.AddRange(File.ReadAllLines(filePath).Where(cmdLine => !cmdLine.StartsWith("#")).Select(cmdLine => new Program(cmdLine, null)));
             }
             catch (Exception e) when (e is FileNotFoundException || e is DirectoryNotFoundException)
             {
