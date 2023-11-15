@@ -5,6 +5,7 @@
     <TargetFramework>net4.7.2</TargetFramework>
     <Nullable>enable</Nullable>
     <LangVersion>latest</LangVersion>
+    <RootNamespace>EarlyStart</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>

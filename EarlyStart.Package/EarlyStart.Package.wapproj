@@ -24,7 +24,7 @@
     <DefaultLanguage>en-US</DefaultLanguage>
     <AppxPackageSigningEnabled>false</AppxPackageSigningEnabled>
     <NoWarn>$(NoWarn);NU1702</NoWarn>
-    <EntryPointProjectUniqueName>..\EarlyStart\EarlyStart.csproj</EntryPointProjectUniqueName>
+    <EntryPointProjectUniqueName>..\EarlyStart.Service\EarlyStart.Service.csproj</EntryPointProjectUniqueName>
   </PropertyGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest">
@@ -41,7 +41,7 @@
     <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.756" PrivateAssets="all" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\EarlyStart\EarlyStart.csproj" />
+    <ProjectReference Include="..\EarlyStart.Service\EarlyStart.Service.csproj" />
   </ItemGroup>
   <Target Name="FlattenPackage" BeforeTargets="_ConvertItems">
     <ItemGroup>
