@@ -124,7 +124,7 @@ namespace EarlyStart
             if (new PackageManager().FindPackagesForUser(sid.Value, "28017CharlesMilette.TranslucentTB_v826wp6bftszj").Any())
             {
                 var cmd = Path.Combine(Environment.SystemDirectory, "cmd.exe");
-                programs.Add(new Program($"\"{cmd}\" /c \"start shell:AppsFolder\\28017CharlesMilette.TranslucentTB_v826wp6bftszj!TranslucentTB\"", SHOW_WINDOW_CMD.SW_HIDE));
+                programs.Add(new Program($"\"{cmd}\" /c \"start ttb:\"", SHOW_WINDOW_CMD.SW_HIDE));
             }
 
             SHGetKnownFolderPath(FOLDERID_Profile, KNOWN_FOLDER_FLAG.KF_FLAG_DONT_VERIFY, sessionToken, out var pPath).ThrowOnFailure();
